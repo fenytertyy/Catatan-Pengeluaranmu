@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - Catatan Pengeluaran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffb3d9;
+            overflow: hidden;
+        }
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-bottom-left-radius:60px; 
+            border-bottom-right-radius: 60px; 
+        }
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        .navbar img {
+            width: 100px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .navbar h1 {
+            font-size: 20px;
+            color: #ff66b2;
+            margin: 0;
+            font-weight: 600;
+        }
+        .navbar a.button {
+            background-color: #ff66b2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-right: 20px;
+        }
+        .navbar a.button:hover {
+            background-color: #e05656;
+        }
+        /* Latar Belakang dengan Ikon Uang */
+        .money-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0; 
+            background-image: url('uang.png'); 
+            background-size: 92px; 
+            background-repeat: repeat; 
+            background-position: 20% 20%; 
+            opacity: 0.3;
+            animation: float 5s ease-in-out infinite; 
+            z-index: -1; 
+        }
+        /* Animasi Gerakan Vertikal */
+        @keyframes float {
+            0% { background-position: 0 0; }
+            50% { background-position: 0 10px; }
+            100% { background-position: 0 0; }
+        }
+        /* Animasi Perubahan Opacity */
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.3; }
+        }
+        /* Container Konten */
+        .container {
+            position: relative;
+            text-align: center;
+            background-color: #ffffff;
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            z-index: 1;
+            margin-top: 80px; 
+        }
+        h1 {
+            color: #ff66b2;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+        }
+        p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .fun-fact {
+            color: #ff66b2;
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ff66b2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #e05656;
+        }
+        .icon {
+            margin: 20px 0;
+            width: 80px;
+            height: auto;
+            animation: zoom 2s ease-in-out infinite; 
+        }
+        /* Animasi Zoom untuk Ikon Uang di Container */
+        @keyframes zoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar dengan Logo dan Tombol -->
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo"> <!-- Sesuaikan path logo -->
+        </div>
+        <a href="catatan_pengeluaran.html" class="button">Catatan Pengeluaranmu</a>
+    </div>
+    
+    <!-- Background Ikon Uang -->
+    <div class="money-background"></div>
+
+    <!-- Konten Utama -->
+    <div class="container">
+        <img class="icon" src="uang.png" alt="Ikon Uang"> <!-- Sesuaikan path ikon -->
+        <h1>SELAMAT DATANG DI CATATAN PENGELUARANMU!</h1>
+        <p><span class="fun-fact">🎉 Faktanya:</span> Setiap sen yang kamu catat, bikin dompetmu lebih bahagia!</p>
+        <p>Kelola pengeluaran kamu dengan mudah, dan pantau total pengeluaran bulanan kamu di sini! Jangan sampai kehabisan jajan! 😄</p>
+        <a href="catatan_pengeluaran.html">Ayo Buka Catatan Pengeluaranmu!</a>
+    </div>
+</body>
+</html>

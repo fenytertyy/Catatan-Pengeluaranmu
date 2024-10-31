@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Pengeluaran Harian</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffccf9, #ffb3d9);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow: auto;
+            position: relative;
+        }
+        .money-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('uang.png');
+            background-size: 92px;
+            background-repeat: repeat;
+            opacity: 0.15;
+            z-index: 0;
+            animation: float 15s linear infinite, fadeInOut 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% {
+                background-position: 20% 20%;
+            }
+            50% {
+                background-position: 22% 22%;
+            }
+            100% {
+                background-position: 20% 20%;
+            }
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        h2 {
+            color: #ff66b2;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .expense-form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #ff66b2;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Jarak antar tombol */
+        }
+        button:hover {
+            background-color: #e65c9f;
+        }
+        .total-result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff66b2;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #ff66b2;
+            color: white;
+            padding: 12px;
+            font-size: 14px;
+        }
+        td {
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .icon {
+            margin: 20px 0;
+            display: block;
+            width: 100px;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+            animation: zoom 3s ease-in-out infinite;
+        }
+        @keyframes zoom {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="money-background"></div>
+    <div class="container">
+        <img class="icon" src="uang.png" alt="Ikon Uang">
+        <h2>Catatan Pengeluaran Harian</h2>
+        
+        <p style="color: #ff66b2; font-size: 18px;">Ayo, kita catat semua pengeluaran! Karena setiap sen itu berarti!</p>
+        <p style="color: #555; font-size: 16px;">Jangan khawatir, di sini kamu bisa jadi <strong>Ahli Keuangan!</strong> 💰</p>
+        
+        <div class="expense-form">
+            <label for="tanggal">Tanggal:</label>
+            <input type="date" id="tanggal">
+
+            <label for="deskripsi">Deskripsi Pengeluaran:</label>
+            <input type="text" id="deskripsi" placeholder="Contoh: Makan siang">
+
+            <label for="jumlah">Jumlah Pengeluaran:</label>
+            <input type="text" id="jumlah" placeholder="1.000">
+
+            <button onclick="tambahPengeluaran()">Tambah Pengeluaran</button>
+        </div>
+
+        <h3 style="color: #ff66b2;">Pengeluaran Harian:</h3>
+        <table id="expenseTable">
+            <tr>
+                <th>Tanggal</th>
+                <th>Deskripsi</th>
+                <th>Jumlah</th>
+            </tr>
+        </table>
+
+        <button onclick="hitungTotal()">Hitung Total Pengeluaran Bulan Ini</button>
+        <div class="total-result" id="totalResult">Total Pengeluaran Bulan Ini: 0</div>
+    </div>
+
+    <script>
+        var expenses = [];
+
+        function tambahPengeluaran() {
+            var tanggal = document.getElementById("tanggal").value;
+            var deskripsi = document.getElementById("deskripsi").value;
+            var jumlahInput = document.getElementById("jumlah").value;
+
+            // Memastikan jumlah bisa dibaca dengan format yang benar
+            var jumlah = parseFloat(jumlahInput.replace(/\./g, '').replace(/,/g, '.'));
+
+            // Validasi input
+            if (!tanggal) {
+                alert("Tanggal tidak boleh kosong.");
+                return;
+            }
+            if (!deskripsi) {
+                alert("Deskripsi pengeluaran tidak boleh kosong.");
+                return;
+            }
+            if (isNaN(jumlah) || jumlah <= 0) {
+                alert("Jumlah pengeluaran tidak valid. Harap masukkan angka yang benar.");
+                return;
+            }
+
+            expenses.push({ tanggal: tanggal, deskripsi: deskripsi, jumlah: jumlah });
+
+            var table = document.getElementById("expenseTable");
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = tanggal;
+            cell2.innerHTML = deskripsi;
+            cell3.innerHTML = formatCurrency(jumlah);
+
+            document.getElementById("tanggal").value = '';
+            document.getElementById("deskripsi").value = '';
+            document.getElementById("jumlah").value = '';
+        }
+
+        function hitungTotal() {
+            var total = expenses.reduce(function (acc, expense) {
+                return acc + expense.jumlah;
+            }, 0);
+            document.getElementById("totalResult").innerHTML = "Total Pengeluaran Bulan Ini: " + formatCurrency(total);
+        }
+
+        function formatCurrency(amount) {
+            return 'RP ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+    </script>
+
+</body>
+</html>
